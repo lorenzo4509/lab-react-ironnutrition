@@ -4,6 +4,7 @@ import AddFoodForm from './components/AddFoodForm';
 import Search from './components/Search';
 import foodsData from './foods.json';
 import { Row, Col, Button} from 'antd';
+import './App.css';
 
 function App() {
   const [foods, setFoods] = useState(foodsData);
@@ -38,6 +39,7 @@ function App() {
       </Button>
       {showForm && <AddFoodForm onAddFood={handleAddFood} />}
       <Search onSearch={handleSearch} />
+      <h1 className='p1'>FOOD LIST</h1>
       <Row gutter={[16, 16]}>
         {filteredFoods.map((food, index) => (
           <Col key={index} xs={24} sm={12} md={8} lg={6}>
