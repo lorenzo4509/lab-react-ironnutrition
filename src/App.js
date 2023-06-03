@@ -3,15 +3,16 @@ import FoodBox from './components/FoodBox';
 import AddFoodForm from './components/AddFoodForm';
 import Search from './components/Search';
 import foodsData from './foods.json';
-import {Row, Col,} from "antd";
+import { Row, Col, Button} from 'antd';
 
 function App() {
   const [foods, setFoods] = useState(foodsData);
   const [filteredFoods, setFilteredFoods] = useState(foodsData);
+  const [showForm, setShowForm] = useState(true);
 
   const handleDeleteFood = (food) => {
-    setFoods(foods.filter((item) => item == food));
-    setFilteredFoods(filteredFoods.filter((item) => item == food));
+    setFoods(foods.filter((item) => item !== food));
+    setFilteredFoods(filteredFoods.filter((item) => item !== food));
   };
 
   const handleAddFood = (food) => {
@@ -26,18 +27,21 @@ function App() {
     setFilteredFoods(filtered);
   };
 
+  const handleToggleForm = () => {
+    setShowForm(!showForm);
+  };
+
   return (
     <div>
-      <AddFoodForm onAddFood={handleAddFood} />
+      <Button type="primary" onClick={handleToggleForm}>
+        {showForm ? 'Hide Form' : 'Add New Food'}
+      </Button>
+      {showForm && <AddFoodForm onAddFood={handleAddFood} />}
       <Search onSearch={handleSearch} />
-      <h1>FOOD LIST</h1>
       <Row gutter={[16, 16]}>
         {filteredFoods.map((food, index) => (
           <Col key={index} xs={24} sm={12} md={8} lg={6}>
-            <FoodBox
-              food={food}
-              onDelete={handleDeleteFood}
-            />
+            <FoodBox food={food} onDelete={handleDeleteFood} />
           </Col>
         ))}
       </Row>
